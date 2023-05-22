@@ -368,5 +368,340 @@ print('Omitting ending index:' , sond)
     Using len() to get last entry: ['sep', 'oct', 'nov', 'dec']
     Omitting ending index: ['sep', 'oct', 'nov', 'dec']
 
+## Using Loops
+
+```python
+odds = [1,3,5,7]
+```
+
+
+```python
+print(odds[0])
+print(odds[1])
+print(odds[2])
+print(odds[3])
+```
+
+    1
+    3
+    5
+    7
+
+
+
+```python
+odds = [1,3,5]
+print(odds[0])
+print(odds[1])
+print(odds[2])
+print(odds[3])
+```
+
+    1
+    3
+    5
+
+
+
+    ---------------------------------------------------------------------------
+
+    IndexError                                Traceback (most recent call last)
+
+    <ipython-input-5-01ba67d8a9e5> in <module>
+          3 print(odds[1])
+          4 print(odds[2])
+    ----> 5 print(odds[3])
+    
+
+    IndexError: list index out of range
+
+
+
+```python
+odds = [1,3,5,7,9,11.13,15,17,19]
+
+for num in odds:
+    print(num)
+```
+
+    1
+    3
+    5
+    7
+    9
+    11.13
+    15
+    17
+    19
+
+
+
+```python
+lenght = 0
+names = ['Curie,' 'Darwin', 'Turing']
+for value in names:
+    lenght = lenght + 1
+print('There are', lenght, 'names in the list.')
+
+```
+
+    There are 2 names in the list.
+
+
+
+```python
+name = "Rosalind"
+for name in ['Curie', 'Darwin' , 'Turing']:
+    print(name)
+print('after the loop, name is' , name)
+```
+
+    Curie
+    Darwin
+    Turing
+    after the loop, name is Turing
+
+
+
+```python
+print(len([0,1,2,3]))
+```
+
+    4
+
+
+
+```python
+name = ['Curie,' 'Darwin', 'Turing']
+
+print(len(name))
+```
+
+    2
+
+## Python Fundamentals
+
+```python
+# Any python interpreter can be used as a calculator:
+3 + 5 + 4
+
+```
+
+
+
+
+    12
+
+
+
+
+```python
+# Lets save a value to a variable
+weight_kg = 60 
+```
+
+
+```python
+print(weight_kg)
+```
+
+    60
+
+
+
+```python
+# Weight0 = valud
+# 0weight = invalid
+# weight and Weight are different 
+```
+
+
+```python
+# Types of data
+# There are three common types of data
+# Integer numbers
+# floating point numbers
+# Strings
+
+```
+
+
+```python
+# Floating point number
+weight_kg = 60.3
+
+```
+
+
+```python
+# String comprised of letters
+patient_name = "Jon Smith"
+```
+
+
+```python
+# String comprised of number
+patient_id = '001'
+```
+
+
+```python
+# Use variables in python 
+
+weight_lb = 2.2 * weight_kg
+
+print(weight_lb)
+```
+
+    132.0
+
+
+
+```python
+# Lets add a prefix to our patient id 
+
+patient_id = 'inflam-' + patient_id
+
+print(patient_id)
+```
+
+    inflam-001
+
+
+
+```python
+# Lets combine print statements 
+
+print(patient_id, 'weight in kilogram:', weight_kg)
+```
+
+    inflam-001 weight in kilogram: 60
+
+
+
+```python
+# we can call a function inside another function
+
+print(type(60.3))
+
+print(type(patient_id))
+```
+
+    <class 'float'>
+    <class 'str'>
+
+
+
+```python
+# We can also do calculation inside the print function
+
+print('weight in lbs:', 2.2 * weight_kg)
+```
+
+    weight in lbs: 132.0
+
+
+
+```python
+print(weight_kg)
+```
+
+    60
+
+
+
+```python
+weight_kg = 65.0
+print('weight in kilograms is now:', weight_kg)
+```
+
+    weight in kilograms is now: 65.0
+
+## Using Multiple Files
+```python
+import glob
+
+```
+
+
+```python
+print(glob.glob('inflammation*.csv'))
+```
+
+    ['inflammation-05.csv', 'inflammation-12.csv', 'inflammation-04.csv', 'inflammation-08.csv', 'inflammation-10.csv', 'inflammation-06.csv', 'inflammation-09.csv', 'inflammation-01.csv', 'inflammation-07.csv', 'inflammation-11.csv', 'inflammation-03.csv', 'inflammation-02.csv']
+
+
+
+```python
+import glob
+import numpy
+import matplotlib.pyplot
+
+filenames = sorted(glob.glob('inflammation*.scv'))
+filesnames = filenames[0:3]
+
+for filename in filenames:
+    print(filename)
+    
+    data = numpy.loadtxt(fname=filename, delimiter = ',')
+    
+    fig = matplotlib.pyplot.figure(figsize = (10.0 , 3.0))
+    
+    axes1 = fig.add_subplot(1,3,1)
+    axes2 = fig.add_subplot(1,3,2)
+    axes3 = fig.add_subplot(1,3,3)
+    
+    axes1.set_ylabel('average')
+    axes1.plot(numpy.mean(data,axis = 0))
+  
+    axes2.set_ylabel('max')
+    axes2.plot(numpy.amax(data, axis = 0))
+    
+    axes3.set_ylabel('min')
+    axes3.plot(numpy.amin(data,axis = 0))
+    
+    fig.tight_layout()
+    matplotlib.pyplot.show()
+```
+
+## Making Choices
+
+```python
+num = 37
+if num > 100:
+    print('greater')
+else:
+    print('not greater')
+print('done')
+    
+```
+
+    not greater
+    done
+
+
+
+```python
+num = 53
+print('before conditional...')
+if num > 100:
+   print(num, 'is greater than 100')
+print('...after conditional')
+```
+
+    before conditional...
+    ...after conditional
+
+
+
+```python
+nuum = -3
+
+if num > 0:
+    print(num,'is postive')
+elif num == 0:
+    print(num, 'is zero')
+else: 
+    
 
 
