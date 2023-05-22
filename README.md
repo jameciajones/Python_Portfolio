@@ -693,7 +693,6 @@ print('...after conditional')
     ...after conditional
 
 
-
 ```python
 nuum = -3
 
@@ -702,6 +701,5 @@ if num > 0:
 elif num == 0:
     print(num, 'is zero')
 else: 
-    
-
-
+   
+## Functions
