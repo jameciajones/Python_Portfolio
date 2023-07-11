@@ -3942,6 +3942,318 @@ blended = cv2.addWeighted(src1 = th1, alpha = 0.6,
 show_pic(blended)
 
 
+## Aspect/Feature Detection
+ 
+ In[1]:
+
+
+import cv2
+
+
+# In[2]:
+
+
+import numpy as np
+
+
+# In[3]:
+
+
+import matplotlib.pyplot as plt
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+# In[4]:
+
+
+img = cv2.imread("Mushroom.jpeg")
+plt.imshow(img)
+
+
+# In[5]:
+
+
+edges = cv2.Canny(image = img, threshold1 = 127, threshold2 = 127)
+
+plt.imshow(edges)
+
+
+# In[8]:
+
+
+med_value = np.median(img)
+med_value
+
+
+# In[11]:
+
+
+lower = int(max(0, 0.7*med_value))
+upper = int(min(255,1.3*med_value))
+
+edges = cv2.Canny(img, threshold = lower, threshold2 = upper)
+
+plt.imshow(edges)
+
+
+# In[12]:
+
+
+blurred_img = cv2.blur(img, ksize = (5,5))
+
+edges = cv2.Canny(image=blurred_img,
+                  threshold1 = lower,
+                  threshold2 = upper)
+plt.imshow(edges)
+
+
+# In[ ]:
+
+
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+# In[7]:
+
+
+flat_chess = cv2.imread('chessboard.jpeg')
+flat_chess = cv2.cvtColor(flat_chess, cv2.COLOR_BGR2RGB)
+plt.imshow(flat_chess)
+
+
+# In[8]:
+
+
+gray_flat_chess = cv2.cvtColor(flat_chess,cv2.COLOR_BGR2RGB)
+plt.imshow(gray_flat_chess, cmap = "gray" )
+
+
+# In[10]:
+
+
+real_chess = cv2.imread('chessboard.jpeg')
+real_chess = cv2.cvtColor(real_chess, cv2.COLOR_BGR2RGB)
+
+
+# In[11]:
+
+
+plt.imshow(real_chess)
+
+
+# In[13]:
+
+
+gray_flat_chess = cv2.cvtColor(real_chess, cv2.COLOR_BGR2GRAY)
+plt.imshow(gray_flat_chess, cmap = 'gray')
+
+
+# In[14]:
+
+
+gray = np.float32(gray_flat_chess)
+dst = cv2.cornerHarris(src = gray, blockSize = 2, ksize = 3, k =0.04)
+
+dst = cv2.dilate(dst, None)
+
+
+# In[15]:
+
+
+flat_chess[dst>0.01*dst.max()] = [255,0,0]
+
+plt.imshow(flat_chess)
+
+
+# In[16]:
+
+
+
+dst = cv2.cornerHarris(src = gray, blockSize = 2, ksize = 3, k =0.04)
+
+dst = cv2.dilate(dst, None)
+real_chess[dst>0.01*dst.max()] = [255,0,0]
+
+plt.imshow(real_chess)
+
+
+# In[17]:
+
+
+#Shi-Tomasi Corner Detection
+
+corners = cv2.goodFeaturesToTrack(gray_flat_chess, 64, 0.01, 10)
+
+
+# In[19]:
+
+
+corners = np.int0(corners)
+
+for i in corners:
+    x,y = i.ravel()
+    cv2.circle(flat_chess, (x,y),3,(255,0,0), -1)
+    
+plt.imshow(flat_chess)
+
+
+# In[23]:
+
+
+corners = cv2.goodFeaturesToTrack(gray_flat_chess, 100, 0.01,10)
+
+corners = np.int0(corners)
+
+for i in corners:
+    x,y = i.ravel()
+    cv2.circle(flat_chess, (x,y),3,(0,255,0), -1)
+    
+plt.imshow(flat_chess)
+
+
+# In[ ]:
+
+## Pairwise Alignment
+
+# In[19]:
+
+
+from Bio import Align
+
+
+# In[20]:
+
+
+from Bio.Seq import reverse_complement
+
+
+# In[21]:
+
+
+target = "AAACCC"
+
+
+# In[22]:
+
+
+query = "AACC"
+
+
+# In[23]:
+
+
+aligner = Align.PairwiseAligner(mismatch_score= -1, internal_gap_score = -1)
+
+
+# In[24]:
+
+
+aligner.score(target, query)
+
+
+# In[25]:
+
+
+aligner.score(target, reverse_complement(query))
+
+
+# In[26]:
+
+
+aligner.score(target, reverse_complement(query), strand = "-")
+
+
+# In[27]:
+
+
+aligner.score(target, query, strand = "-")
+
+
+# In[29]:
+
+
+alignments = aligner.align(target,query)
+
+
+# In[30]:
+
+
+len(alignments)
+
+
+# In[32]:
+
+
+print(alignments[0])
+
+
+# In[33]:
+
+
+print(alignments[0]. format("bed"))
+
+
+# In[34]:
+
+
+alignments = aligner.align(target,query, strand = "-")
+
+
+# In[35]:
+
+
+len(alignments)
+
+
+# In[36]:
+
+
+print(alignments[0])
+
+
+# In[37]:
+
+
+print(alignments[1])
+
+
+# In[38]:
+
+
+aligner.left_gap_score = -0.5
+
+
+# In[39]:
+
+
+aligner.right_gap_score = -0.5
+
+
+# In[40]:
+
+
+print(alignments[0])
+
+
+# In[41]:
+
+
+aligner.score(target, reverse_complement(query), strand = "+")
+
+
+# In[ ]:
+
+
+
+
+
+
+
+
 
 
 
