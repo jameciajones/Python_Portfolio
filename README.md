@@ -3504,3 +3504,8 @@ Phylo.draw_ascii(tree)
 
 ![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/fa28606a-fa6c-4fc3-8169-e190a4691975)
 
+## Open CV Basics
+
+[OpenCVBasics.pdf](https://github.com/jameciajones/Python_Portfolio/files/12016821/OpenCVBasics.pdf)
+
+
