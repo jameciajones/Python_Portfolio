@@ -779,8 +779,5 @@ mutable_seq = MutableSeq(my_seq)
 ```
 \
 
-```
-
 ![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/0236dd0f-e02e-4d3c-9773-ea8cb4161d37)
-
 
