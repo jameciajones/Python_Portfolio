@@ -781,3 +781,563 @@ mutable_seq = MutableSeq(my_seq)
 
 ![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/0236dd0f-e02e-4d3c-9773-ea8cb4161d37)
 
+
+
+## Sequence Annotation
+
+```python
+from Bio.SeqRecord import SeqRecord
+```
+
+
+```python
+from Bio.Seq import Seq
+```
+
+
+```python
+simple_seq = Seq("GATC")
+```
+
+
+```python
+simple_seq_r = SeqRecord(simple_seq)
+```
+
+
+```python
+simple_seq_r
+```
+
+
+
+
+    SeqRecord(seq=Seq('GATC'), id='<unknown id>', name='<unknown name>', description='<unknown description>', dbxrefs=[])
+
+
+
+
+```python
+simple_seq_r.id = "AC12345"
+```
+
+
+```python
+simple_seq_r.description = "Made up sequence for the VDB Computational Biology Class"
+```
+
+
+```python
+print(simple_seq_r.description)
+```
+
+    Made up sequence for the VDB Computational Biology Class
+
+
+
+```python
+simple_seq_r.seq
+```
+
+
+
+
+    Seq('GATC')
+
+
+
+
+```python
+simple_seq_r
+```
+
+
+
+
+    SeqRecord(seq=Seq('GATC'), id='AC12345', name='<unknown name>', description='Made up sequence for the VDB Computational Biology Class', dbxrefs=[])
+
+
+
+
+```python
+simple_seq_r.annotations["evidence"] = "None. This is just an example"
+```
+
+
+```python
+print(simple_seq_r.annotations["evidence"])
+```
+
+    None. This is just an example
+
+
+
+```python
+simple_seq_r
+```
+
+
+
+
+    SeqRecord(seq=Seq('GATC'), id='AC12345', name='<unknown name>', description='Made up sequence for the VDB Computational Biology Class', dbxrefs=[])
+
+
+
+
+```python
+simple_seq_r.letter_annotations["phred_quality"] = [40, 40, 38, 30]
+```
+
+
+```python
+simple_seq_r.letter_annotations
+```
+
+
+
+
+    {'phred_quality': [40, 40, 38, 30]}
+
+
+
+
+```python
+#https://raw.githubusercontent.com/biopython/biopython/master/Tests/GenBank/NC_005816.fna
+```
+
+
+```python
+from Bio import SeqIO
+```
+
+
+```python
+record = SeqIO.read("NC_005816.fna.txt", "fasta")
+```
+record
+
+```python
+record
+```
+
+
+
+
+    SeqRecord(seq=Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG'), id='gi|45478711|ref|NC_005816.1|', name='gi|45478711|ref|NC_005816.1|', description='gi|45478711|ref|NC_005816.1| Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence', dbxrefs=[])
+
+
+
+
+```python
+record.seq
+```
+
+
+
+
+    Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG')
+
+
+
+
+```python
+record.id
+```
+
+
+
+
+    'gi|45478711|ref|NC_005816.1|'
+
+
+
+
+```python
+record.description
+```
+
+
+
+
+    'gi|45478711|ref|NC_005816.1| Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence'
+
+
+
+
+```python
+record.dbxrefs
+```
+
+
+
+
+    []
+
+
+
+
+```python
+#https://raw.githubusercontent.com/biopython/biopython/master/Tests/GenBank/NC_005816.gb
+```
+
+
+```python
+record = SeqIO.read("NC_005816.gb.txt", "genbank")
+```
+
+
+```python
+record
+```
+
+
+
+
+    SeqRecord(seq=Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG'), id='NC_005816.1', name='NC_005816', description='Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence', dbxrefs=['Project:58037'])
+
+
+
+
+```python
+record.seq
+```
+
+
+
+
+    Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG')
+
+
+
+
+```python
+record.id
+```
+
+
+
+
+    'NC_005816.1'
+
+
+
+
+```python
+record.description
+```
+
+
+
+
+    'Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence'
+
+
+
+
+```python
+record.letter_annotations
+```
+
+
+
+
+    {}
+
+
+
+
+```python
+len(record.annotations)
+```
+
+
+
+
+    13
+
+
+
+
+```python
+record.annotations["source"]
+```
+
+
+
+
+    'Yersinia pestis biovar Microtus str. 91001'
+
+
+
+
+```python
+record.dbxrefs
+```
+
+
+
+
+    ['Project:58037']
+
+
+
+
+```python
+len(record.features)
+```
+
+
+
+
+    41
+
+
+
+
+```python
+from Bio import SeqFeature
+```
+
+
+```python
+start_pos = SeqFeature.AfterPosition(5)
+```
+
+
+```python
+end_pos = SeqFeature.BetweenPosition(9, left =8, right =9)
+```
+
+
+```python
+my_location = SeqFeature.SimpleLocation(start_pos, end_pos)
+```
+
+
+```python
+print(my_location)
+```
+
+    [>5:(8^9)]
+
+
+
+```python
+my_location.start
+```
+
+
+
+
+    AfterPosition(5)
+
+
+
+
+```python
+my_location.end
+```
+
+
+
+
+    BetweenPosition(9, left=8, right=9)
+
+
+
+
+```python
+int(my_location.end)
+```
+
+
+
+
+    9
+
+
+
+
+```python
+int(my_location.start)
+```
+
+
+
+
+    5
+
+
+
+
+```python
+exact_location = SeqFeature.SimpleLocation(5,9)
+```
+
+
+```python
+print(exact_location)
+```
+
+    [5:9]
+
+
+
+```python
+exact_location.start
+```
+
+
+
+
+    ExactPosition(5)
+
+
+
+
+```python
+shifted = record [2000:] + record[:2000]
+```
+
+
+```python
+shifted
+```
+
+
+
+
+    SeqRecord(seq=Seq('GATACGCAGTCATATTTTTTACACAATTCTCTAATCCCGACAAGGTCGTAGGTC...GGA'), id='NC_005816.1', name='NC_005816', description='Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence', dbxrefs=[])
+
+
+
+
+```python
+len(shifted)
+```
+
+
+
+
+    9609
+
+
+
+
+```python
+len(shifted.features)
+```
+
+
+
+
+    40
+
+
+
+
+```python
+shifted.annotations.keys()
+```
+
+
+
+
+    dict_keys(['molecule_type'])
+
+
+
+
+```python
+shifted.dbxrefs
+```
+
+
+
+
+    []
+
+
+
+
+```python
+shifted.dbxrefs = record.dbxrefs[:]
+```
+
+
+```python
+shifted.dbxrefs
+```
+
+
+
+
+    ['Project:58037']
+
+
+
+
+```python
+shifted.annotations = record.annotations.copy()
+```
+
+
+```python
+shifted.annotations.keys()
+```
+
+
+
+
+    dict_keys(['molecule_type', 'topology', 'data_file_division', 'date', 'accessions', 'sequence_version', 'gi', 'keywords', 'source', 'organism', 'taxonomy', 'references', 'comment'])
+
+
+
+
+```python
+record
+```
+
+
+
+
+    SeqRecord(seq=Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG'), id='NC_005816.1', name='NC_005816', description='Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence', dbxrefs=['Project:58037'])
+
+
+
+
+```python
+print("%s %i %i %i %i" % (record.id, len(record), len(record.features), len(record.dbxrefs), len(record.annotations)))
+```
+
+    NC_005816.1 9609 41 1 13
+
+
+
+```python
+rc = record.reverse_complement(id="Testing")
+```
+
+
+```python
+rc
+```
+
+
+
+
+    SeqRecord(seq=Seq('CAGGGGTCGGGGTACGCATTCCCTCATGCGTCAATATTATCTGGCATTGCGATG...ACA'), id='Testing', name='<unknown name>', description='<unknown description>', dbxrefs=[])
+
+
+
+
+```python
+print("%s %i %i %i %i" %(rc.id, len(rc), len(rc.features), len(rc.dbxrefs), len(rc.annotations)))
+```
+
+    Testing 9609 41 0 0
+
+
+
+![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/69a77b68-198c-4693-bc5c-c2afc99dbd03)
+
