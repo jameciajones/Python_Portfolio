@@ -3564,39 +3564,384 @@ Phylo.draw_ascii(tree)
 
 ## Open CV Basics
 
+ In[1]:
 
-#import necessary libraries/functions
+
 import numpy as np
+import matplotlib.pyplot as plt
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+# In[2]:
+
+
+import cv2
+
+
+# In[18]:
+
+
+img = cv2.imread("Mushroom.jpeg")
+
+
+# In[19]:
+
+
+type(img)
+
+
+# In[20]:
+
+
+img_wrong = cv2.imread('wrong/path/doesnot/abcdegh.jpg')
+
+
+# In[21]:
+
+
+type(img_wrong)
+
+
+# In[22]:
+
+
+plt.imshow(img)
+
+
+# In[23]:
+
+
+fix_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+
+# In[25]:
+
+
+plt.imshow(fix_img)
+
+
+# In[26]:
+
+
+img_gray = cv2.imread("Mushroom.jpeg", cv2.IMREAD_GRAYSCALE)
+img_gray.shape
+
+
+# In[27]:
+
+
+plt.imshow(img_gray)
+
+
+# In[30]:
+
+
+plt.imshow(img_gray, cmap = "gray")
+
+
+# In[31]:
+
+
+fix_img.shape
+
+
+# In[32]:
+
+
+new_img = cv2.resize(fix_img,(1000,400))
+plt.imshow(new_img)
+
+
+# In[33]:
+
+
+new_img.shape
+
+
+# In[34]:
+
+
+w_ratio = 0.5
+h_ratio = 0.5
+
+new_img = cv2.resize(fix_img, (0,0), fix_img, w_ratio, h_ratio)
+
+
+# In[36]:
+
+
+plt.imshow(new_img)
+
+
+# In[37]:
+
+
+flip_img = cv2.flip(fix_img, 0)
+plt.imshow(flip_img)
+
+
+# In[38]:
+
+
+flip_img2 = cv2.flip(fix_img, -1)
+plt.imshow(flip_img)
+
+
+# In[39]:
+
+
+type(fix_img)
+
+
+# In[40]:
+
+
+cv2.imwrite('Mushroom_fixed_image.jpeg', fix_img)
+
+
+# In[41]:
+
+
+img2 = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+
+# In[43]:
+
+
+plt.imshow(img2)
+
+
+# In[44]:
+
+
+img3 = cv2.cvtColor(img, cv2.COLOR_BGR2HLS)
+
+
+# In[46]:
+
+
+plt.imshow(img3)
+
+
+# In[51]:
+
+
+img1 = cv2.imread("do-not-copy.jpeg")
+img2 = cv2.imread("Mushroom.jpeg")
+
+
+# In[52]:
+
+
+plt.imshow(img1)
+
+
+# In[55]:
+
+
+img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+
+
+# In[57]:
+
+
+plt.imshow(img2)
+
+
+# In[58]:
+
+
+img1 = cv2.resize(img1,(1200,1200))
+img2 = cv2.resize(img2,(1200,1200))
+
+
+# In[59]:
+
+
+alpha = 0.5
+beta = 0.5
+
+
+# In[60]:
+
+
+blended = cv2.addWeighted(img1, alpha, img2, beta, gamma=0)
+
+
+# In[61]:
+
+
+plt.imshow(blended)
+
+
+# In[63]:
+
+
+alpha = 0.8
+beta = 0.2
+
+blended1 = cv2.addWeighted(img1, alpha, img2, beta, 0)
+plt.imshow(blended1)
+
+
+# In[65]:
+
+
+img1 = cv2.imread('do-not-copy.jpeg')
+img2 = cv2.imread('Mushroom.jpeg')
+
+img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+img1 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+
+img1 = cv2.resize(img1, (600,600))
+
+
+# In[66]:
+
+
+large_img = img2
+small_img = img1
+
+x_offset = 0
+y_offset = 0
+
+x_end = x_offset + small_img.shape[1]
+y_end = y_offset + small_img.shape[0]
+
+large_img[y_offset: y_end, x_offset:x_end] = small_img
+
+plt.imshow(large_img)
+
+
+# In[67]:
+
+
 import cv2
 import matplotlib.pyplot as plt
-%matplotlib inline
-#load the image being used
-img = cv2.imread("mushrum.jpg")
-#we can check its type - it's a NumPy array
-type(img)
-numpy.ndarray
-#note that an incorrect path does not return an error
-img_wrong = cv2.imread("wrong/path/doesnot/abcdegh.jpg")
-#but if we check its type...
-type(img_wrong)
-NoneType
-#we can display the image now
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+# In[68]:
+
+
+img = cv2.imread('rainbow.jpg')
+
+
+# In[69]:
+
+
 plt.imshow(img)
-<matplotlib.image.AxesImage at 0x7fe114e4cb50>
-output_5_1
 
-#the color channels are out of order - most images use an RGB triplet palette in that order, but OpenCV interprets channel values in the order BGR instead
-#we'll need to reorder the channels
-fix_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-plt.imshow(fix_img)
-<matplotlib.image.AxesImage at 0x7fe11457d5d0>
-output_6_1
 
-#we can display the image's resolution and number of color channels with the shape method
-fix_img.shape
-(539, 512, 3)
-#we can also convert it to a simple monochrome channel
-img_gray = cv2.imread("mushrum.jpg", cv2.IMREAD_GRAYSCALE)
-plt.imshow(img_gray)
-<matplotlib.image.AxesImage at 0x7fe1144e7d50>
+# In[71]:
+
+
+img = cv2.imread('rainbow.jpg', 0)
+
+
+# In[72]:
+
+
+plt.imshow(img, cmap = 'gray')
+
+
+# In[74]:
+
+
+ret1, thresh1 = cv2.threshold(img,127, 255, cv2. THRESH_BINARY)
+
+
+# In[75]:
+
+
+ret1
+
+
+# In[77]:
+
+
+plt.imshow(thresh1, cmap = "gray")
+
+
+# In[78]:
+
+
+img2 = cv2.imread('rainbow.jpg', 0)
+ret1, thresh1 = cv2.threshold(img2, 127, 255, cv2.THRESH_TRUNC)
+plt.imshow(thresh1, cmap = "gray")
+
+
+# In[79]:
+
+
+img3 = cv2.imread('rainbow.jpg', 0)
+ret1, thresh1 = cv2.threshold(img2, 127, 255, cv2.THRESH_TOZERO)
+plt.imshow(thresh1, cmap = "gray")
+
+
+# In[80]:
+
+
+def show_pic(img):
+    fig = plt.figure(figsize = (15,15))
+    ax = fig.add_subplot(111)
+    ax.imshow(img, cmap = 'gray')
+
+
+# In[81]:
+
+
+img_r = cv2.imread('crossword.jpg', 0)
+plt.imshow(img_r, cmap = 'gray')
+
+
+# In[82]:
+
+
+ret, th1, = cv2.threshold(img_r, 127, 255, cv2.THRESH_BINARY)
+show_pic(th1)
+
+
+# In[83]:
+
+
+ret, th1 = cv2.threshold(img_r, 200, 255,cv2.THRESH_BINARY)
+show_pic(th1)
+
+
+# In[84]:
+
+
+th2 = cv2.adaptiveThreshold(img_r, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11,8)
+
+
+# In[85]:
+
+
+show_pic(th2)
+
+
+# In[87]:
+
+
+blended = cv2.addWeighted(src1 = th1, alpha = 0.6,
+                         src2 = th2, beta = 0.4, gamma = 0)
+
+show_pic(blended)
+
+
+# In[ ]:
+
+
+#alternatively
+th3 = cv2.adaptiveThreshold(img_r, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 8)
+
+blended = cv2.addWeighted(src1 = th1, alpha = 0.6,
+                         src2 = th3, beta = 0.4, gamma = 0)
+show_pic(blended)
+
+
+
+
 
