@@ -2640,3 +2640,867 @@ SeqIO.write(records, "rev_comp.fasta", "fasta")
 
 
 ![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/2e427311-27da-40b3-b03f-3507a214a066)
+
+## Sequence Alignment
+
+```python
+from Bio import AlignIO
+```
+
+
+```python
+alignment = AlignIO.read("PF05371_seed.sthh.txt", "stockholm")
+```
+print(alignment)
+
+```python
+print(alignment)
+```
+
+    Alignment with 7 rows and 52 columns
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRL...SKA COATB_BPIKE/30-81
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKL...SRA Q9T0Q8_BPIKE/1-52
+    DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRL...SKA COATB_BPI22/32-83
+    AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA COATB_BPM13/24-72
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA COATB_BPZJ2/1-49
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA Q9T0Q9_BPFD/1-49
+    FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKL...SRA COATB_BPIF1/22-73
+
+
+
+```python
+print("Alignment length %i" % alignment.get_alignment_length())
+```
+
+    Alignment length 52
+
+
+
+```python
+for record in alignment:
+    print("%s - %s" % (record.seq, record.id))
+```
+
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - COATB_BPIKE/30-81
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - Q9T0Q8_BPIKE/1-52
+    DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - COATB_BPI22/32-83
+    AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA - COATB_BPM13/24-72
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFASKA - COATB_BPZJ2/1-49
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA - Q9T0Q9_BPFD/1-49
+    FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA - COATB_BPIF1/22-73
+
+
+
+```python
+for record in alignment:
+    if record.dbxrefs:
+        print("%s %s" % (record.id, record.dbxrefs))
+```
+
+    COATB_BPIKE/30-81 ['PDB; 1ifl ; 1-52;']
+    COATB_BPM13/24-72 ['PDB; 2cpb ; 1-49;', 'PDB; 2cps ; 1-49;']
+    Q9T0Q9_BPFD/1-49 ['PDB; 1nh4 A; 1-49;']
+    COATB_BPIF1/22-73 ['PDB; 1ifk ; 1-50;']
+
+
+
+```python
+for record in alignment:
+    print(record)
+
+```
+
+    ID: COATB_BPIKE/30-81
+    Name: COATB_BPIKE
+    Description: COATB_BPIKE/30-81
+    Database cross-references: PDB; 1ifl ; 1-52;
+    Number of features: 0
+    /accession=P03620.1
+    /start=30
+    /end=81
+    Per letter annotation for: secondary_structure
+    Seq('AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA')
+    ID: Q9T0Q8_BPIKE/1-52
+    Name: Q9T0Q8_BPIKE
+    Description: Q9T0Q8_BPIKE/1-52
+    Number of features: 0
+    /accession=Q9T0Q8.1
+    /start=1
+    /end=52
+    Seq('AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA')
+    ID: COATB_BPI22/32-83
+    Name: COATB_BPI22
+    Description: COATB_BPI22/32-83
+    Number of features: 0
+    /accession=P15416.1
+    /start=32
+    /end=83
+    Seq('DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA')
+    ID: COATB_BPM13/24-72
+    Name: COATB_BPM13
+    Description: COATB_BPM13/24-72
+    Database cross-references: PDB; 2cpb ; 1-49;, PDB; 2cps ; 1-49;
+    Number of features: 0
+    /accession=P69541.1
+    /start=24
+    /end=72
+    Per letter annotation for: secondary_structure
+    Seq('AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA')
+    ID: COATB_BPZJ2/1-49
+    Name: COATB_BPZJ2
+    Description: COATB_BPZJ2/1-49
+    Number of features: 0
+    /accession=P03618.1
+    /start=1
+    /end=49
+    Seq('AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFASKA')
+    ID: Q9T0Q9_BPFD/1-49
+    Name: Q9T0Q9_BPFD
+    Description: Q9T0Q9_BPFD/1-49
+    Database cross-references: PDB; 1nh4 A; 1-49;
+    Number of features: 0
+    /accession=Q9T0Q9.1
+    /start=1
+    /end=49
+    Per letter annotation for: secondary_structure
+    Seq('AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA')
+    ID: COATB_BPIF1/22-73
+    Name: COATB_BPIF1
+    Description: COATB_BPIF1/22-73
+    Database cross-references: PDB; 1ifk ; 1-50;
+    Number of features: 0
+    /accession=P03619.2
+    /start=22
+    /end=73
+    Per letter annotation for: secondary_structure
+    Seq('FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA')
+
+
+
+```python
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.Align import MultipleSeqAlignment
+```
+
+
+```python
+align1 = MultipleSeqAlignment(
+    [
+    SeqRecord(Seq ("ACTGCTAGCTAG"), id="Alpha"), 
+    SeqRecord(Seq("ACT-CTAGCTAG"), id="Beta"),
+    SeqRecord (Seq ("ACTGCTAGDTAG"), id= "Gamma"),
+
+    ]
+)
+align2 = MultipleSeqAlignment(
+    [
+    SeqRecord(Seq("GTCAGC-AG"), id="Delta"), SeqRecord(Seq("GACAGCTAG"), id="Epsilon"),
+    SeqRecord(Seq("GTCAGCTAG"), id="Zeta"),
+    ]
+ )
+align3 = MultipleSeqAlignment(
+    [
+    SeqRecord(Seq("ACTAGTACAGCTG"), id="Eta"),
+    SeqRecord (Seq( "ACTAGTACAGCT-"), id="Theta"), 
+    SeqRecord(Seq("-CTACTACAGGTG"), id="Iota"),
+    ]
+)
+    
+```
+
+
+```python
+my_alignments = [align1, align2, align3]
+```
+
+
+```python
+my_alignments
+```
+
+
+
+
+    [<<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 12) at 7f47fc7dedd0>,
+     <<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 9) at 7f47fc79c0d0>,
+     <<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 13) at 7f47fc7dae50>]
+
+
+
+
+```python
+print(my_alignments)
+```
+
+    [<<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 12) at 7f47fc7dedd0>, <<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 9) at 7f47fc79c0d0>, <<class 'Bio.Align.MultipleSeqAlignment'> instance (3 records of length 13) at 7f47fc7dae50>]
+
+
+
+```python
+from Bio import AlignIO
+AlignIO.write(my_alignments, "my example.phy","phylip")
+```
+
+
+
+
+    3
+
+
+
+
+```python
+alignments = AlignIO.parse("my example.phy","phylip")
+```
+
+
+```python
+for alignment in alignments:
+    print(alignment)
+    print()
+```
+
+    Alignment with 3 rows and 12 columns
+    ACTGCTAGCTAG Alpha
+    ACT-CTAGCTAG Beta
+    ACTGCTAGDTAG Gamma
+    
+    Alignment with 3 rows and 9 columns
+    GTCAGC-AG Delta
+    GACAGCTAG Epsilon
+    GTCAGCTAG Zeta
+    
+    Alignment with 3 rows and 13 columns
+    ACTAGTACAGCTG Eta
+    ACTAGTACAGCT- Theta
+    -CTACTACAGGTG Iota
+    
+
+
+
+```python
+alignments = list(AlignIO.parse("my example.phy","phylip"))
+```
+
+
+```python
+last_align = alignments[-1]
+```
+
+
+```python
+print(last_align)
+```
+
+    Alignment with 3 rows and 13 columns
+    ACTAGTACAGCTG Eta
+    ACTAGTACAGCT- Theta
+    -CTACTACAGGTG Iota
+
+
+
+```python
+first_align = alignments [0]
+```
+
+
+```python
+print(first_align)
+```
+
+    Alignment with 3 rows and 12 columns
+    ACTGCTAGCTAG Alpha
+    ACT-CTAGCTAG Beta
+    ACTGCTAGDTAG Gamma
+
+
+
+```python
+count = AlignIO.convert("PF05371_seed.sth.txt", "stockholm", "PF05371_seed.sth.txt", "clustal")
+```
+
+
+```python
+print("Converted %i alignments" % count)
+```
+
+    Converted 0 alignments
+
+
+
+```python
+alignment = AlignIO.parse("PF05371_seed.sth.txt", "stockholm")
+```
+
+
+```python
+count = AlignIO.write(alignments, "PF05371_seed.sth.txt", "clustal")
+```
+
+
+```python
+print("Converted %i alignments" % count)
+```
+
+    Converted 3 alignments
+
+
+
+```python
+
+```
+
+
+```python
+alignment = AlignIO.read("PF05371_seed.sthh.txt", "stockholm")
+name_mapping = {}
+for i,record in enumerate(alignment):
+    name_mapping[i] = record.id
+    record.id = "seq%i" % i
+```
+
+
+```python
+print(name_mapping)
+```
+
+    {0: 'COATB_BPIKE/30-81', 1: 'Q9T0Q8_BPIKE/1-52', 2: 'COATB_BPI22/32-83', 3: 'COATB_BPM13/24-72', 4: 'COATB_BPZJ2/1-49', 5: 'Q9T0Q9_BPFD/1-49', 6: 'COATB_BPIF1/22-73'}
+
+
+
+```python
+
+```
+
+
+```python
+AlignIO.write([alignment], "PF05371_seed.sthh.txt", "stockholm")
+```
+
+
+
+
+    1
+
+
+
+
+```python
+alignment = AlignIO.read("PF05371_seed.sthh.txt", "stockholm")
+```
+
+
+```python
+print("Number of rows: %i" % len(alignment))
+```
+
+    Number of rows: 7
+
+
+
+```python
+for record in alignment:
+    print("%s - %s" % (record.seq, record.id))
+
+```
+
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - seq0/30-81
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - seq1/1-52
+    DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - seq2/32-83
+    AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA - seq3/24-72
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFASKA - seq4/1-49
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA - seq5/1-49
+    FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA - seq6/22-73
+
+
+
+```python
+print(alignment[3:7])
+```
+
+    Alignment with 4 rows and 52 columns
+    AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq3/24-72
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq4/1-49
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq5/1-49
+    FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKL...SRA seq6/22-73
+
+
+
+```python
+print(alignment[2,6])
+```
+
+    T
+
+
+
+```python
+print(alignment[2].seq[6])
+```
+
+    T
+
+
+
+```python
+print(alignment[:,6])
+```
+
+    TTT---T
+
+
+
+```python
+print(alignment[:,:6])
+```
+
+    Alignment with 7 rows and 6 columns
+    AEPNAA seq0/30-81
+    AEPNAA seq1/1-52
+    DGTSTA seq2/32-83
+    AEGDDP seq3/24-72
+    AEGDDP seq4/1-49
+    AEGDDP seq5/1-49
+    FAADDA seq6/22-73
+
+
+
+```python
+print(alignment[:9:])
+```
+
+    Alignment with 7 rows and 52 columns
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRL...SKA seq0/30-81
+    AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKL...SRA seq1/1-52
+    DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRL...SKA seq2/32-83
+    AEGDDP---AKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq3/24-72
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq4/1-49
+    AEGDDP---AKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKL...SKA seq5/1-49
+    FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKL...SRA seq6/22-73
+
+
+
+```python
+edited = alignment[:, :6] + alignment[:, 9:]
+```
+
+
+```python
+print(edited)
+```
+
+    Alignment with 7 rows and 49 columns
+    AEPNAAATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA seq0/30-81
+    AEPNAAATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA seq1/1-52
+    DGTSTAATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA seq2/32-83
+    AEGDDPAKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA seq3/24-72
+    AEGDDPAKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFASKA seq4/1-49
+    AEGDDPAKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA seq5/1-49
+    FAADDAAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA seq6/22-73
+
+
+
+```python
+edited.sort
+```
+
+
+
+
+    <bound method MultipleSeqAlignment.sort of <<class 'Bio.Align.MultipleSeqAlignment'> instance (7 records of length 49) at 7f47fc889090>>
+
+
+
+
+```python
+print(edited)
+```
+
+    Alignment with 7 rows and 49 columns
+    AEPNAAATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA seq0/30-81
+    AEPNAAATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA seq1/1-52
+    DGTSTAATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA seq2/32-83
+    AEGDDPAKAAFNSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA seq3/24-72
+    AEGDDPAKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFASKA seq4/1-49
+    AEGDDPAKAAFDSLQASATEYIGYAWAMVVVIVGATIGIKLFKKFTSKA seq5/1-49
+    FAADDAAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA seq6/22-73
+
+
+
+```python
+from Bio.Seq import Seq
+```
+
+
+```python
+from Bio.SeqRecord import SeqRecord
+```
+
+
+```python
+from Bio.Align import MultipleSeqAlignment
+```
+
+
+```python
+alignment = MultipleSeqAlignment (
+    [
+    SeqRecord (Seq ("ACTCCTA"), id="seq1"), 
+    SeqRecord (Seq("AAT-CTA"), id="seq2"), 
+    SeqRecord (Seq("CCTACT-"), id="seq3"), 
+    SeqRecord(Seq ("TCTCCTC"), id="seq4"),
+    ]
+)
+```
+
+
+```python
+print(alignment)
+```
+
+    Alignment with 4 rows and 7 columns
+    ACTCCTA seq1
+    AAT-CTA seq2
+    CCTACT- seq3
+    TCTCCTC seq4
+
+
+
+```python
+substitutions = alignment.substitutions
+```
+
+
+```python
+print(substitutions)
+```
+
+        A    C    T
+    A 2.0  4.5  1.0
+    C 4.5 10.0  0.5
+    T 1.0  0.5 12.0
+    
+
+
+
+```python
+m = substitutions.select("ATCG")
+```
+
+
+```python
+print(m)
+```
+
+        A    T    C   G
+    A 2.0  1.0  4.5 0.0
+    T 1.0 12.0  0.5 0.0
+    C 4.5  0.5 10.0 0.0
+    G 0.0  0.0  0.0 0.0
+    
+
+
+
+```python
+m = substitutions.select("ACTG")
+```
+
+
+```python
+print(m)
+```
+
+        A    C    T   G
+    A 2.0  4.5  1.0 0.0
+    C 4.5 10.0  0.5 0.0
+    T 1.0  0.5 12.0 0.0
+    G 0.0  0.0  0.0 0.0
+    
+
+
+
+```python
+import Bio.Align.Applications
+```
+
+
+```python
+dir(Bio.Align.Applications)
+```
+
+
+
+
+    ['ClustalOmegaCommandline',
+     'ClustalwCommandline',
+     'DialignCommandline',
+     'MSAProbsCommandline',
+     'MafftCommandline',
+     'MuscleCommandline',
+     'PrankCommandline',
+     'ProbconsCommandline',
+     'TCoffeeCommandline',
+     '_ClustalOmega',
+     '_Clustalw',
+     '_Dialign',
+     '_MSAProbs',
+     '_Mafft',
+     '_Muscle',
+     '_Prank',
+     '_Probcons',
+     '_TCoffee',
+     '__all__',
+     '__builtins__',
+     '__cached__',
+     '__doc__',
+     '__file__',
+     '__loader__',
+     '__name__',
+     '__package__',
+     '__path__',
+     '__spec__']
+
+
+
+
+```python
+from Bio.Align.Applications import ClustalwCommandline
+```
+
+
+```python
+help(ClustalwCommandline)
+```
+
+    Help on class ClustalwCommandline in module Bio.Align.Applications._Clustalw:
+    
+    class ClustalwCommandline(Bio.Application.AbstractCommandline)
+     |  ClustalwCommandline(cmd='clustalw', **kwargs)
+     |  
+     |  Command line wrapper for clustalw (version one or two).
+     |  
+     |  http://www.clustal.org/
+     |  
+     |  Notes
+     |  -----
+     |  Last checked against versions: 1.83 and 2.1
+     |  
+     |  References
+     |  ----------
+     |  Larkin MA, Blackshields G, Brown NP, Chenna R, McGettigan PA,
+     |  McWilliam H, Valentin F, Wallace IM, Wilm A, Lopez R, Thompson JD,
+     |  Gibson TJ, Higgins DG. (2007). Clustal W and Clustal X version 2.0.
+     |  Bioinformatics, 23, 2947-2948.
+     |  
+     |  Examples
+     |  --------
+     |  >>> from Bio.Align.Applications import ClustalwCommandline
+     |  >>> in_file = "unaligned.fasta"
+     |  >>> clustalw_cline = ClustalwCommandline("clustalw2", infile=in_file)
+     |  >>> print(clustalw_cline)
+     |  clustalw2 -infile=unaligned.fasta
+     |  
+     |  You would typically run the command line with clustalw_cline() or via
+     |  the Python subprocess module, as described in the Biopython tutorial.
+     |  
+     |  Method resolution order:
+     |      ClustalwCommandline
+     |      Bio.Application.AbstractCommandline
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, cmd='clustalw', **kwargs)
+     |      Initialize the class.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Bio.Application.AbstractCommandline:
+     |  
+     |  __call__(self, stdin=None, stdout=True, stderr=True, cwd=None, env=None)
+     |      Execute command, wait for it to finish, return (stdout, stderr).
+     |      
+     |      Runs the command line tool and waits for it to finish. If it returns
+     |      a non-zero error level, an exception is raised. Otherwise two strings
+     |      are returned containing stdout and stderr.
+     |      
+     |      The optional stdin argument should be a string of data which will be
+     |      passed to the tool as standard input.
+     |      
+     |      The optional stdout and stderr argument may be filenames (string),
+     |      but otherwise are treated as a booleans, and control if the output
+     |      should be captured as strings (True, default), or ignored by sending
+     |      it to /dev/null to avoid wasting memory (False). If sent to a file
+     |      or ignored, then empty string(s) are returned.
+     |      
+     |      The optional cwd argument is a string giving the working directory
+     |      to run the command from. See Python's subprocess module documentation
+     |      for more details.
+     |      
+     |      The optional env argument is a dictionary setting the environment
+     |      variables to be used in the new process. By default the current
+     |      process' environment variables are used. See Python's subprocess
+     |      module documentation for more details.
+     |      
+     |      Default example usage::
+     |      
+     |          from Bio.Emboss.Applications import WaterCommandline
+     |          water_cmd = WaterCommandline(gapopen=10, gapextend=0.5,
+     |                                       stdout=True, auto=True,
+     |                                       asequence="a.fasta", bsequence="b.fasta")
+     |          print("About to run: %s" % water_cmd)
+     |          std_output, err_output = water_cmd()
+     |      
+     |      This functionality is similar to subprocess.check_output(). In general
+     |      if you require more control over running the command, use subprocess
+     |      directly.
+     |      
+     |      When the program called returns a non-zero error level, a custom
+     |      ApplicationError exception is raised. This includes any stdout and
+     |      stderr strings captured as attributes of the exception object, since
+     |      they may be useful for diagnosing what went wrong.
+     |  
+     |  __repr__(self)
+     |      Return a representation of the command line object for debugging.
+     |      
+     |      e.g.
+     |      
+     |      >>> from Bio.Emboss.Applications import WaterCommandline
+     |      >>> cline = WaterCommandline(gapopen=10, gapextend=0.5)
+     |      >>> cline.asequence = "asis:ACCCGGGCGCGGT"
+     |      >>> cline.bsequence = "asis:ACCCGAGCGCGGT"
+     |      >>> cline.outfile = "temp_water.txt"
+     |      >>> print(cline)
+     |      water -outfile=temp_water.txt -asequence=asis:ACCCGGGCGCGGT -bsequence=asis:ACCCGAGCGCGGT -gapopen=10 -gapextend=0.5
+     |      >>> cline
+     |      WaterCommandline(cmd='water', outfile='temp_water.txt', asequence='asis:ACCCGGGCGCGGT', bsequence='asis:ACCCGAGCGCGGT', gapopen=10, gapextend=0.5)
+     |  
+     |  __setattr__(self, name, value)
+     |      Set attribute name to value (PRIVATE).
+     |      
+     |      This code implements a workaround for a user interface issue.
+     |      Without this __setattr__ attribute-based assignment of parameters
+     |      will silently accept invalid parameters, leading to known instances
+     |      of the user assuming that parameters for the application are set,
+     |      when they are not.
+     |      
+     |      >>> from Bio.Emboss.Applications import WaterCommandline
+     |      >>> cline = WaterCommandline(gapopen=10, gapextend=0.5, stdout=True)
+     |      >>> cline.asequence = "a.fasta"
+     |      >>> cline.bsequence = "b.fasta"
+     |      >>> cline.csequence = "c.fasta"
+     |      Traceback (most recent call last):
+     |      ...
+     |      ValueError: Option name csequence was not found.
+     |      >>> print(cline)
+     |      water -stdout -asequence=a.fasta -bsequence=b.fasta -gapopen=10 -gapextend=0.5
+     |      
+     |      This workaround uses a whitelist of object attributes, and sets the
+     |      object attribute list as normal, for these.  Other attributes are
+     |      assumed to be parameters, and passed to the self.set_parameter method
+     |      for validation and assignment.
+     |  
+     |  __str__(self)
+     |      Make the commandline string with the currently set options.
+     |      
+     |      e.g.
+     |      
+     |      >>> from Bio.Emboss.Applications import WaterCommandline
+     |      >>> cline = WaterCommandline(gapopen=10, gapextend=0.5)
+     |      >>> cline.asequence = "asis:ACCCGGGCGCGGT"
+     |      >>> cline.bsequence = "asis:ACCCGAGCGCGGT"
+     |      >>> cline.outfile = "temp_water.txt"
+     |      >>> print(cline)
+     |      water -outfile=temp_water.txt -asequence=asis:ACCCGGGCGCGGT -bsequence=asis:ACCCGAGCGCGGT -gapopen=10 -gapextend=0.5
+     |      >>> str(cline)
+     |      'water -outfile=temp_water.txt -asequence=asis:ACCCGGGCGCGGT -bsequence=asis:ACCCGAGCGCGGT -gapopen=10 -gapextend=0.5'
+     |  
+     |  set_parameter(self, name, value=None)
+     |      Set a commandline option for a program (OBSOLETE).
+     |      
+     |      Every parameter is available via a property and as a named
+     |      keyword when creating the instance. Using either of these is
+     |      preferred to this legacy set_parameter method which is now
+     |      OBSOLETE, and likely to be DEPRECATED and later REMOVED in
+     |      future releases.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Bio.Application.AbstractCommandline:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Bio.Application.AbstractCommandline:
+     |  
+     |  parameters = None
+    
+
+
+
+```python
+from Bio import AlignIO
+```
+
+
+```python
+align = AlignIO.read("opuntia.aln.txt", "clustal")
+```
+
+
+```python
+print(align)
+```
+
+    Alignment with 7 rows and 906 columns
+    TATACATTAAAGAAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273285|gb|AF191659.1|AF191
+    TATACATTAAAGAAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273284|gb|AF191658.1|AF191
+    TATACATTAAAGAAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273287|gb|AF191661.1|AF191
+    TATACATAAAAGAAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273286|gb|AF191660.1|AF191
+    TATACATTAAAGGAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273290|gb|AF191664.1|AF191
+    TATACATTAAAGGAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273289|gb|AF191663.1|AF191
+    TATACATTAAAGGAGGGGGATGCGGATAAATGGAAAGGCGAAAG...AGA gi|6273291|gb|AF191665.1|AF191
+
+
+
+```python
+from Bio import Phylo
+
+```
+
+
+```python
+tree = Phylo.read("opuntia.dnd.txt", "newick")
+```
+
+
+```python
+Phylo.draw_ascii(tree)
+```
+
+                                 _______________ gi|6273291|gb|AF191665.1|AF191665
+      __________________________|
+     |                          |   ______ gi|6273290|gb|AF191664.1|AF191664
+     |                          |__|
+     |                             |_____ gi|6273289|gb|AF191663.1|AF191663
+     |
+    _|_________________ gi|6273287|gb|AF191661.1|AF191661
+     |
+     |__________ gi|6273286|gb|AF191660.1|AF191660
+     |
+     |    __ gi|6273285|gb|AF191659.1|AF191659
+     |___|
+         | gi|6273284|gb|AF191658.1|AF191658
+    
+
+
+
+```python
+
+```
+
+![image](https://github.com/jameciajones/Python_Portfolio/assets/134228924/fa28606a-fa6c-4fc3-8169-e190a4691975)
+
